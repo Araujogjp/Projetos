@@ -30,7 +30,7 @@ public class GerenciarClientes {
             
             if(!listClientes.isEmpty()){ // Verificar se a lista não está vazia
                 Cliente cliExistente = buscarCodCli(codigoCli);
-                if(cliExistente.getCodigoCli() == codigoCli){ // Verifica se o novo código cadastrado já existe na lista
+                if(cliExistente != null){ // Verifica se o novo código cadastrado já existe na lista
                     System.out.println("Esse código já está ligado a um Cliente");
                     continue;
                 }
@@ -95,8 +95,8 @@ public class GerenciarClientes {
                 continue;
             }
             else{
-                if(ufCli.length() > 2){ // Verifica o tamanho da String
-                    System.out.println("O limite é de 2 caracteres");
+                if(ufCli.length() != 2){ // Verifica o tamanho da String
+                    System.out.println("Uf deve possuir dois caracteres");
                     continue;
                 }
             }
@@ -158,5 +158,132 @@ public class GerenciarClientes {
             listClientes.add(c); // Adiciona o cliente na lista
             System.out.println("Cliente cadastrado com sucesso");
         }
+    }
+    
+    // Editar Clientes
+    public void alterar(){
+        System.out.println("Consultar informações de Clientes");
+        System.out.println("Se não deseja alterar o dado em questão apenas clique enter");
+        System.out.println("Digite o código de Cliente: ");
+        int codCliAlterar = sc.nextInt();
+        sc.nextLine();
+        
+        Cliente cliAlterar = buscarCodCli(codCliAlterar); // Cria uma caixa e chama o método
+        
+        if(cliAlterar == null){
+            System.out.println("Nenhum Cliente de código: "+codCliAlterar+" encontrado no nosso banco de dados");
+            return;
+        }
+        
+        System.out.println("Novo nome: ");
+        String novoNomeCli = sc.nextLine();
+        if(!novoNomeCli.isEmpty()){ // Verificar se a String não está vazia
+            cliAlterar.setNome(novoNomeCli);
+            System.out.println("Nome alterado com sucesso!");
+        }
+        
+        System.out.println("Nova Rua: ");
+        String novaRuaCli = sc.nextLine();
+        if(!novaRuaCli.isEmpty()){ // Verificar se a String não está vazia
+            cliAlterar.setEndereco(novaRuaCli);
+            System.out.println("Rua alterada com sucesso!");
+        }
+        
+        System.out.println("Novo Bairro: ");
+        String novoBairroCli = sc.nextLine();
+        if(!novoBairroCli.isEmpty()){ // Verificar se a String não está vazia
+            cliAlterar.setBairro(novoBairroCli);
+            System.out.println("Novo bairro cadastrado com sucesso!");
+        }
+        
+        System.out.println("Nova cidade: ");
+        String novaCidadeCli = sc.nextLine();
+        if(!novaCidadeCli.isEmpty()){ // Verificar se a String não está vazia
+            cliAlterar.setCidade(novaCidadeCli);
+            System.out.println("Nova cidade cadastrada com sucesso!");
+        }
+        
+        System.out.println("Novo Uf: ");
+        String novoUfCli = sc.nextLine();
+        if(!novoUfCli.isEmpty()){ // Verificar se a String não está vazia
+            cliAlterar.setUf(novoUfCli);
+            System.out.println("Novo Uf cadastrado com sucesso!");
+        }
+        
+        System.out.println("Novo Cep: ");
+        String novoCepCli = sc.nextLine();
+        if(!novoCepCli.isEmpty()){ // Verificar se a String não está vazia
+            cliAlterar.setCep(novoCepCli);
+            System.out.println("Novo Cep cadastrado com sucesso!");
+        }
+        System.out.println("Alterações realizadas com sucesso!");
+    }
+    
+    // Consultar clientes
+    public void consultar(){
+       System.out.println("Consultar Cliente");
+        System.out.println("Digite o código do cliente: ");
+        int codCliConsultar = sc.nextInt();
+        
+        Cliente cliConsultar = buscarCodCli(codCliConsultar); // Criando uma caixa e buscando o código
+        
+        if(cliConsultar == null){ // Verificar se a caixa está vazia
+           System.out.println("Nenhum cliente de código: "+codCliConsultar+" encontrado no banco de dados");
+           return;
+        }
+        
+        // Se a caixa não estiver vazia os prints são acionados
+        System.out.println("Dados do Cliente: ");
+        System.out.println("Nome: "+cliConsultar.getNomeCli());
+        System.out.println("Rua: "+cliConsultar.getEnderecoCli());
+        System.out.println("Bairro: "+cliConsultar.getBairroCli());
+        System.out.println("Cidade: "+cliConsultar.getCidadeCli());
+        System.out.println("Uf: "+cliConsultar.getUfCli());
+        System.out.println("Cep: "+cliConsultar.getCepCli());
+        System.out.println("Telefone: "+cliConsultar.getTelefoneCli());
+    }
+    
+    public void remover(){
+        System.out.println("Remover ");
+        System.out.println("Digite o código do cliente: ");
+        int codCliRemover = sc.nextInt();
+        sc.nextLine();
+        
+        Cliente cliRemover = buscarCodCli(codCliRemover); // Criando uma caixa e buscando o código
+        if(cliRemover == null){ // Verificar se a caixa está vazia
+            System.out.println("Nenhum cliente com o código: "+codCliRemover+" encontrado no banco de dados");
+            return;
+        }
+        
+        System.out.println("Deseja remover mesmo?");
+        System.out.println("Digite 1(Sim):  ");
+        System.out.println("Digite 2(Não): ");
+        System.out.println("Opção: ");
+        int opcao = sc.nextInt();
+        sc.nextLine();
+        if(opcao == 1){
+            listClientes.remove(cliRemover);
+            System.out.println("Cliente removido com sucesso!");
+        }
+        else{
+            System.out.println("Operação cancelada");
+        }
+    }
+    
+    public void listarTds(){
+        if(listClientes.isEmpty()){
+            System.out.println("Nenhum cliente cadastrado");
+            return;
+        }
+        for(Cliente c: listClientes){
+                System.out.println("Dados do Cliente: "+c.getNomeCli());
+                System.out.println("Código: "+c.getCodigoCli());
+                System.out.println("Rua: "+c.getEnderecoCli());
+                System.out.println("Bairro: "+c.getBairroCli());
+                System.out.println("Cidade: "+c.getCidadeCli());
+                System.out.println("Uf: "+c.getUfCli());
+                System.out.println("Cep: "+c.getCepCli());
+                System.out.println("Telefone: "+c.getTelefoneCli());
+       }
     }
 }
